@@ -15,6 +15,7 @@
  */
 package com.example.android.hellosharedprefs;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,7 @@ import android.widget.TextView;
  * - Themes and styles.
  * - Read and write shared preferences for the current count and the color.
  * <p>
- * This is the starter code for HelloSharedPrefs.
+ * This is the solution code for HelloSharedPrefs.
  */
 public class MainActivity extends AppCompatActivity {
     // Current count
@@ -51,26 +52,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize views, color
+        // Initialize views, color, preferences
         mShowCountTextView = findViewById(R.id.count_textview);
         mColor = ContextCompat.getColor(this,
                 R.color.default_background);
 
-        // Restore the saved instance state.
-        if (savedInstanceState != null) {
-
-            mCount = savedInstanceState.getInt(COUNT_KEY);
-            if (mCount != 0) {
-                mShowCountTextView.setText(String.format("%s", mCount));
-            }
-
-            mColor = savedInstanceState.getInt(COLOR_KEY);
-            mShowCountTextView.setBackgroundColor(mColor);
-        }
     }
 
     /**
-     * Handles the onClick for the background color buttons. Gets background
+     * Handles the onClick for the background color buttons.  Gets background
      * color of the button that was clicked, and sets the TextView background
      * to that color.
      *
@@ -83,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Handles the onClick for the Count button. Increments the value of the
+     * Handles the onClick for the Count button.  Increments the value of the
      * mCount global and updates the TextView.
      *
      * @param view The view (Button) that was clicked.
@@ -94,22 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Saves the instance state if the activity is restarted (for example,
-     * on device rotation.) Here you save the values for the count and the
-     * background color.
-     *
-     * @param outState The state data.
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(COUNT_KEY, mCount);
-        outState.putInt(COLOR_KEY, mColor);
-    }
-
-    /**
-     * Handles the onClick for the Reset button. Resets the global count and
+     * Handles the onClick for the Reset button.  Resets the global count and
      * background variables to the defaults and resets the views to those
      * default values.
      *
@@ -124,5 +99,15 @@ public class MainActivity extends AppCompatActivity {
         mColor = ContextCompat.getColor(this,
                 R.color.default_background);
         mShowCountTextView.setBackgroundColor(mColor);
+
+    }
+
+    /**
+     * Callback for activity pause.  Shared preferences are saved here.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 }
